@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+
+        @font-face {
+            font-family: myFont;
+            src: url(font/Copyduck.ttf);
+        }
+
+        img{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 100% 100% 100% 100%;
+        }
+
+        body{
+            background-image: url(immagini/sfondo.avif);
+        }
+
+        #punteggio{
+            position: absolute;
+            color: palevioletred;
+            margin-top: 20px;
+            margin-left: 770px;
+            font-size: 55px;
+            font-family: myFont;
+        }
+
+        #potenziamento{
+            position: absolute;
+            margin-left: 525px;
+            margin-top: 410px;
+            font-size: 100px;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-family: myFont;
+        }
+
+        #livello{
+            position: absolute;
+            color: yellow;
+            margin-top: 20px;
+            margin-left: 70px;
+            font-size: 55px;
+            font-family: myFont;
+        }
+
+        #myAudio{
+            position: absolute;
+            margin-top: -300px;
+        }
+
+    </style>
+    <script>
+        var cx;
+        var mela;
+        var pera;
+        var foglia;
+        var c;
+        var punteggio;
+        var potenziamento;
+        var livello;
+        var x = 50;
+        var y = 120;
+        var xc;
+        var yc;
+        var passox = 0;
+        var passoy = 0;
+        var passoxc = 0;
+        var passoyc = 0;
+        var larghDiv = parseInt($(window).width());
+		var altDiv = parseInt($(window).height());
+        var larghImm = 100;
+        var altImm = 100;
+        var foto = 0;
+        var pt = 0;
+        var lv = 1;
+        $(document).ready(function(){
+            mela = $("#mela");
+            pera = $("#pera");
+            foglia = $("#foglia");
+            c = $("#c");
+            punteggio = $("#punteggio");
+            potenziamento = $("#potenziamento");
+            livello = $("#livello");
+            mela.hide();
+            pera.hide();
+            foglia.hide();
+            potenziamento.hide();
+            cx = 0;
+            c.css("left", 0 + "px");
+            c.css("top", 0 + "px");
+            $(document).keydown(tastc);
+            intervallo = setInterval(muovic,17);
+            timeout2 = setTimeout(apparizione, 1000);
+        });
+
+        function tastc(event){
+            document.getElementById("myAudio").play();
+            switch(event.key){
+                case "ArrowUp":
+                    cx = 7;
+                    c.attr("src","immagini/c3.jpg");
+                    passox = 0;
+                    passoy = -5;
+                    break;
+                case "ArrowDown":
+                    cx = 8;
+                    c.attr("src","immagini/c4.jpg");
+                    passox = 0;
+                    passoy = 5;
+                    break;
+                case "ArrowRight":
+                    cx = 5;
+                    c.attr("src","immagini/c1.jpg");
+                    passox = 5;
+                    passoy = 0;
+                    break;
+                case "ArrowLeft":
+                    cx = 6;
+                    c.attr("src","immagini/c2.jpg");
+                    passox = -5;
+                    passoy = 0;
+                    break;
+                case "w":
+                    cx = 7;
+                    c.attr("src","immagini/c3.jpg");
+                    passox = 0;
+                    passoy = -5;
+                    break;
+                case "a":
+                    cx = 6;
+                    c.attr("src","immagini/c2.jpg");
+                    passox = -5;
+                    passoy = 0;
+                    break;
+                case "s":
+                    cx = 8;
+                    c.attr("src","immagini/c4.jpg");
+                    passox = 0;
+                    passoy = 5;
+                    break;
+                case "d":
+                    cx = 5;
+                    c.attr("src","immagini/c1.jpg");
+                    passox = 5;
+                    passoy = 0;
+                    break;
+                case " ":
+                    passox = 0;
+                    passoy = 0;
+                    break;
+            }
+        }
+
+        function muovic(){
+            x += passox;
+
+            if(x<0){ x = larghDiv-larghImm}
+            if(x+larghImm>larghDiv){ x = 0}
+
+            y += passoy;
+
+            if(y<0){ y = altDiv-altImm}
+            if(y+altImm>altDiv){ y = 0}
+            c.css("left", x + "px");
+            c.css("top", y + "px");
+        }
+
+        function apparizione(){
+            var k = Math.floor(Math.random()*3)+1;
+            switch(k){
+                case 1:
+                    foto = mela;
+                    cibo();
+                    break;
+                case 2:
+                    foto = pera;
+                    cibo();
+                    break;
+                case 3:
+                    foto = foglia;
+                    cibo();
+                    break;
+            }
+        }
+
+        function cibo(){
+            xc=Math.floor(Math.random()*(larghDiv*0.80)-larghImm)+larghImm;
+            yc=Math.floor(Math.random()*(altDiv*0.80)-altImm)+altImm;
+            foto.css("left", xc + "px");
+            foto.css("top", yc + "px");
+            foto.show();
+            var k1 = Math.floor(Math.random()*1500)+250;
+            intervallo2 = setInterval(tastCibo, k1);
+            intervallo3 = setInterval(muoviCibo, 25);
+        }
+
+        function tastCibo(){
+            var k2 = Math.floor(Math.random()*4)+1;
+            switch(k2){
+                case 1:
+                    passoxc = 0;
+                    passoyc = -5;
+                    break;
+                case 2:
+                    passoxc = 0;
+                    passoyc = 5;
+                    break;
+                case 3:
+                    passoxc = 5;
+                    passoyc = 0;
+                    break;
+                case 4:
+                    passoxc = -5;
+                    passoyc = 0;
+                    break;
+            }
+        }
+
+        function muoviCibo(){
+            
+            xc += passoxc;
+
+            if(xc<0){ xc = larghDiv-larghImm}
+            if(xc+larghImm>larghDiv){ xc = 0}
+
+            yc += passoyc;
+
+            if(yc<0){ yc = altDiv-altImm}
+            if(yc+altImm>altDiv){ yc = 0}
+            
+            foto.css("left", xc + "px");
+            foto.css("top", yc + "px");
+
+            collisione();
+        }
+
+        function collisione(){
+            if(!((x+larghImm<xc) || (xc+larghImm-(larghImm/2)<x) || (y+altImm<yc) || (yc+altImm-(larghImm/2)<y))){
+                document.getElementById("myAudio1").play();
+                foto.hide();
+                clearInterval(intervallo2);
+                clearInterval(intervallo3);
+                setTimeout(apparizione, 1000);
+                c.attr("src","immagini/c"+cx+".jpg");
+                timeout3 = setTimeout(cambioImm, 1000);
+                pt++;
+                punteggio.html("Punteggio:  " + pt);
+                if(pt%5==0 && lv<=5){
+                    larghImm += 50;
+                    altImm += 50;
+                    c.css("width", larghImm);
+                    c.css("height", altImm);
+                    potenziamento.show();
+                    var timeout4 = setTimeout(potenziamento1, 500);
+                    var timeout5 = setTimeout(potenziamento2, 800);
+                    var timeout6 = setTimeout(potenziamento1, 1300);
+                    lv++;
+                    livello.html("Livello: " + lv);
+                    if(lv == 5){
+                        lv++;
+                        livello.html("Livello: MAX");
+                    }
+                }
+            }
+        }
+
+        function cambioImm(){
+            c.attr("src","immagini/c"+(cx-4)+".jpg");
+        }
+
+        function potenziamento1(){
+            potenziamento.hide();
+        }
+
+        function potenziamento2(){
+            potenziamento.show();
+        }
+
+        
+
+    </script>
+    <body>
+        <h1 id="punteggio">Punteggio: 0</h1>
+        <h1 id="potenziamento">POTENZIAMENTO!</h1>
+        <h1 id="livello">Livello: 1</h1>
+        <img src="immagini/mela.webp" id="mela">
+        <img src="immagini/pera.png" id="pera">
+        <img src="immagini/foglia.png" id="foglia">
+        <img src="immagini/c1.jpg" id="c">
+        <audio id="myAudio">
+            <source src="suoni/Song.mp3" type="audio/ogg">
+            <source src="suoni/Song.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="myAudio1">
+            <source src="suoni/coin-upaif-14631.mp3" type="audio/ogg">
+            <source src="suoni/coin-upaif-14631.mp3" type="audio/mpeg">
+        </audio>
+    </body>
+</html>
